@@ -48,11 +48,11 @@ jobs:
     
     steps:
     - name: Login to Docker Hub on local machine
-      shell: cmd
+      shell: powershell
       env:
         DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      run: echo %DOCKERHUB_TOKEN% | docker login -u %DOCKERHUB_USERNAME% --password-stdin
+      run: $env:DOCKERHUB_TOKEN | docker login -u $env:DOCKERHUB_USERNAME --password-stdin
       
     - name: Pull the latest Docker Image
       shell: cmd
