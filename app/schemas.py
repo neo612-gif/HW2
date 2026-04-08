@@ -20,6 +20,10 @@ class Style(str, Enum):
     sporty = "sporty"
     street = "street"
     classic = "classic"
+    minimal = "minimal"
+    dandy = "dandy"
+    gorpcore = "gorpcore"
+    preppy = "preppy"
 
 
 class OutfitItem(BaseModel):

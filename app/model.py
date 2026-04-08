@@ -45,6 +45,10 @@ STYLE_THEMES = {
     "sporty": ["polo shirt", "sweatpants", "shorts", "athletic wear"],
     "street": ["graphic tee", "cargo pants", "denim jacket", "streetwear"],
     "classic": ["knit sweater", "chino pants", "linen shirt", "classic style"],
+    "minimal": ["minimalist shirt", "plain trousers", "clean minimal look"],
+    "dandy": ["neat cardigan", "slacks", "loafers", "sophisticated look"],
+    "gorpcore": ["technical windbreaker", "cargo pants", "technical jacket", "outdoor gear"],
+    "preppy": ["polo shirt", "v-neck sweater", "chino shorts", "academic style"],
 }
 
 OCCASIONS = {
