@@ -92,6 +92,9 @@ class OutfitModel:
         inputs = self.processor(images=image, return_tensors="pt").to(self.device)
         with torch.no_grad():
             embedding = self.model.get_image_features(**inputs)
+            # 모델 버전에 따라 객체가 반환될 경우를 대비해 텐서만 추출
+            if not hasattr(embedding, "cpu"):
+                embedding = getattr(embedding, "pooler_output", embedding[0])
         return embedding.cpu().numpy().flatten()
 
     def classify_with_prompts(
