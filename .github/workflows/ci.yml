@@ -7,6 +7,7 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
+  # 1단계: 깃허브가 제공하는 클라우드 서버에서 무거운 이미지 빌드 및 업로드 (CI)
   build-and-push:
     runs-on: ubuntu-latest
     
@@ -39,3 +40,27 @@ jobs:
         
         cache-from: type=gha
         cache-to: type=gha,mode=max
+
+  # 2단계: 사용자님의 컴퓨터(로컬)에서 자동으로 다운로드 및 실행 (CD)
+  deploy-to-local:
+    needs: build-and-push   # 빌드 작업이 성공해야만 배포를 시작함
+    runs-on: self-hosted    # 사용자님이 설정해 둔 로컬 컴퓨터 러너를 지목함
+    
+    steps:
+    - name: Login to Docker Hub on local machine
+      shell: cmd
+      run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      
+    - name: Pull the latest Docker Image
+      shell: cmd
+      run: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/outfit-recommender:latest
+      
+    - name: Stop and Delete Existing Container
+      shell: cmd
+      # 이미 실행 중인 서버가 있다면 지워버림. (처음 실행하는 거라 없어도 오류나지 않도록 처리)
+      run: docker rm -f outfit_recommender || exit 0
+        
+    - name: Run newly pulled container
+      shell: cmd
+      # 항상 새로운 버전을 8000번 포트로 백그라운드 띄움
+      run: docker run -d --name outfit_recommender -p 8000:8000 ${{ secrets.DOCKERHUB_USERNAME }}/outfit-recommender:latest
