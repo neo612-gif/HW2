@@ -47,12 +47,11 @@ jobs:
     runs-on: self-hosted    # 사용자님이 설정해 둔 로컬 컴퓨터 러너를 지목함
     
     steps:
-    - name: Login to Docker Hub on local machine
-      shell: cmd
-      env:
-        DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      run: (echo %DOCKERHUB_TOKEN%)|docker login -u %DOCKERHUB_USERNAME% --password-stdin
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
       
     - name: Pull the latest Docker Image
       shell: cmd
