@@ -99,10 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Render Analysis Badges
         const analysis = data.analysis;
         const badges = [
-            { label: '체형', value: analysis.body_shape },
-            { label: '피부톤', value: analysis.skin_tone },
-            { label: '퍼스널 컬러', value: analysis.personal_color },
-            { label: '스타일링 팁', value: analysis.styling_tip }
+            { label: '체형', value: analysis.detected_body_type },
+            { label: '피부톤', value: analysis.detected_skin_tone },
+            { label: '주요 색상', value: analysis.dominant_colors.join(', ') }
         ];
 
         badges.forEach(b => {
@@ -112,14 +111,20 @@ document.addEventListener('DOMContentLoaded', () => {
             analysisBadges.appendChild(badge);
         });
 
-        // Render Recommendations
-        data.recommendations.forEach(item => {
+        // Render Recommendations (List of OutfitCombination)
+        data.recommendations.forEach(combo => {
             const card = document.createElement('div');
             card.className = 'outfit-card';
+            card.style.borderLeft = '4px solid var(--accent-primary)';
+            
             card.innerHTML = `
-                <div class="item-category">${item.category}</div>
-                <div class="item-name">${item.item}</div>
-                <div class="item-desc">${item.description}</div>
+                <div class="item-category">${combo.style_theme} - ${combo.occasion}</div>
+                <div style="margin-bottom: 1rem;">
+                    <p><strong>상의:</strong> ${combo.top.color} ${combo.top.name}</p>
+                    <p><strong>하의:</strong> ${combo.bottom.color} ${combo.bottom.name}</p>
+                </div>
+                <div class="item-desc" style="font-style: italic;">"${combo.reason}"</div>
+                <div style="margin-top:0.8rem; font-size:0.8rem; color:var(--accent-secondary)">조합 점수: ${(combo.overall_score * 100).toFixed(0)}점</div>
             `;
             recommendationList.appendChild(card);
         });
