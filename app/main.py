@@ -1,7 +1,10 @@
 import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 from app.config import get_settings
 from app.api.endpoints import router as recommend_router
@@ -58,6 +61,15 @@ app.add_middleware(
 
 # 라우터 등록
 app.include_router(recommend_router)
+
+# 정적 파일 마운트 (CSS, JS 등)
+static_path = os.path.join(os.path.dirname(__file__), "static")
+app.mount("/static", StaticFiles(directory=static_path), name="static")
+
+@app.get("/")
+async def read_index():
+    """메인 UI 페이지를 반환합니다."""
+    return FileResponse(os.path.join(static_path, "index.html"))
 
 @app.get("/health", response_model=HealthResponse, tags=["System"])
 async def health_check():

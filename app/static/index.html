@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium AI Outfit Recommender</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Outfit Recommender</h1>
+            <p class="subtitle">당신만의 퍼스널 스타일을 AI가 분석하고 완벽한 코디를 제안합니다.</p>
+        </header>
+
+        <main class="dashboard">
+            <!-- Left Side: Upload & Input -->
+            <section class="card">
+                <div id="drop-zone" class="upload-zone">
+                    <span class="upload-icon">✨</span>
+                    <p class="upload-text">전신 사진을 여기에 끌어다 놓으세요</p>
+                    <p class="upload-hint">또는 클릭하여 파일 선택 (JPG, PNG)</p>
+                    <input type="file" id="file-input" hidden accept="image/*">
+                    <img id="image-preview" src="" alt="Preview">
+                </div>
+
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="season-select">SEASON</label>
+                        <select id="season-select">
+                            <option value="all">모든 계절 (All)</option>
+                            <option value="spring">봄 (Spring)</option>
+                            <option value="summer">여름 (Summer)</option>
+                            <option value="autumn">가을 (Autumn)</option>
+                            <option value="winter">겨울 (Winter)</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="style-select">STYLE</label>
+                        <select id="style-select">
+                            <option value="casual">캐주얼 (Casual)</option>
+                            <option value="formal">포멀 (Formal)</option>
+                            <option value="sporty">스포티 (Sporty)</option>
+                            <option value="vintage">빈티지 (Vintage)</option>
+                            <option value="street">스트릿 (Street)</option>
+                        </select>
+                    </div>
+
+                    <button id="recommend-btn" class="btn-recommend" disabled>분석 및 추천 시작</button>
+                </div>
+            </section>
+
+            <!-- Right Side: Analysis & Recommendations -->
+            <section class="card">
+                <div id="loader">
+                    <div class="spinner"></div>
+                    <p class="pulse">AI가 이미지를 분석하고 있습니다...</p>
+                </div>
+
+                <div id="empty-view" class="empty-state">
+                    <p>이미지를 업로드하면 분석 결과가 여기에 표시됩니다.</p>
+                </div>
+
+                <div id="result-view" class="results-container" style="display: none;">
+                    <div>
+                        <h2 style="margin-bottom: 1.5rem;">Analysis Result</h2>
+                        <div id="analysis-badges" class="analysis-badge-container">
+                            <!-- Badges will be injected here -->
+                        </div>
+                    </div>
+
+                    <hr style="border: none; border-top: 1px solid var(--glass-border); margin: 1rem 0;">
+
+                    <div>
+                        <h2 style="margin-bottom: 1.5rem;">Recommended Outfits</h2>
+                        <div id="recommendation-list" class="recommendation-grid">
+                            <!-- Cards will be injected here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
